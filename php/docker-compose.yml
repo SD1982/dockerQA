@@ -1,0 +1,94 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.7
+    container_name: mysql-5.7
+    restart: unless-stopped
+    volumes:
+      - ~/dockerQA/mysql/mysql-5.7/db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYQSL_PASSWORD: root
+    networks:
+      - web
+
+  php71:
+    build:
+      dockerfile: php-7.1.Dockerfile
+      context: .
+    container_name: php-7.1
+    restart: unless-stopped
+    volumes:
+      - ~/dockerQA/html/:/var/www/html
+      - ~/dockerQA/php/config/php71/php72/php.ini-development:/usr/local/etc/php/php.ini-development
+      - ~/dockerQA/php/config/php71/php72/php.ini-production:/usr/local/etc/php/php.ini-production
+      #- ~/dockerQA/php/config/php71/php72/conf.d:/usr/local/etc/php/conf.d
+    ports:
+      - 8071:80
+    networks:
+      - web
+
+  php72:
+    build:
+      dockerfile: php-7.2.Dockerfile
+      context: .
+    container_name: php-7.2
+    restart: unless-stopped
+    volumes:
+      - ~/dockerQA/html/:/var/www/html
+      - ~/dockerQA/php/config/php72/php.ini-development:/usr/local/etc/php/php.ini-development
+      - ~/dockerQA/php/config/php72/php.ini-production:/usr/local/etc/php/php.ini-production
+      #- ~/dockerQA/php/config/php72/conf.d:/usr/local/etc/php/conf.d
+    ports:
+      - 8072:80
+    networks:
+      - web
+
+  php73:
+    build:
+      dockerfile: php-7.3.Dockerfile
+      context: .
+    container_name: php-7.3
+    restart: unless-stopped
+    volumes:
+      - ~/dockerQA/html/:/var/www/html
+      - ~/dockerQA/php/config/php73/php.ini-development:/usr/local/etc/php/php.ini-development
+      - ~/dockerQA/php/config/php73/php.ini-production:/usr/local/etc/php/php.ini-production
+      #- ~/dockerQA/php/config/php73/conf.d:/usr/local/etc/php/conf.d
+    ports:
+      - 8073:80
+    networks:
+      - web
+
+  php74:
+    build:
+      dockerfile: php-7.4.Dockerfile
+      context: .
+    container_name: php-7.4
+    restart: unless-stopped
+    volumes:
+      - ~/dockerQA/html/:/var/www/html
+      - ~/dockerQA/php/config/php74/php.ini-development:/usr/local/etc/php/php.ini-development
+      - ~/dockerQA/php/config/php74/php.ini-production:/usr/local/etc/php/php.ini-production
+      #- ~/dockerQA/php/config/php74/conf.d:/usr/local/etc/php/conf.d
+    ports:
+      - 8074:80
+    networks:
+      - web
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - 8100:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql-5.7
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
