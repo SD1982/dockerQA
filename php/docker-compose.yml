@@ -85,7 +85,7 @@ services:
       - 8100:80
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOST=mysql-5.7
+      #- PMA_HOST=mysql-5.7
     networks:
       - web
 
