@@ -21,8 +21,8 @@ services:
     restart: unless-stopped
     volumes:
       - ~/dockerQA/html/:/var/www/html
-      - ~/dockerQA/php/config/php71/php72/php.ini-development:/usr/local/etc/php/php.ini-development
-      - ~/dockerQA/php/config/php71/php72/php.ini-production:/usr/local/etc/php/php.ini-production
+      - ~/dockerQA/php/config/php71/php.ini-development:/usr/local/etc/php/php.ini-development
+      - ~/dockerQA/php/config/php71/php.ini-production:/usr/local/etc/php/php.ini-production
       #- ~/dockerQA/php/config/php71/php72/conf.d:/usr/local/etc/php/conf.d
     ports:
       - 8071:80
@@ -92,3 +92,8 @@ services:
 networks:
   web:
     external: true
+    
+    
+    
+    
+    
