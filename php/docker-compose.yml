@@ -21,9 +21,7 @@ services:
     restart: unless-stopped
     volumes:
       - ~/dockerQA/html/:/var/www/html
-      - ~/dockerQA/php/config/php71/php.ini-development:/usr/local/etc/php/php.ini-development
-      - ~/dockerQA/php/config/php71/php.ini-production:/usr/local/etc/php/php.ini-production
-      #- ~/dockerQA/php/config/php71/php72/conf.d:/usr/local/etc/php/conf.d
+      - ~/dockerQA/php/config/php71/conf.d/php.ini-development:/usr/local/etc/php/conf.d/php.ini
     ports:
       - 8071:80
     networks:
@@ -37,9 +35,7 @@ services:
     restart: unless-stopped
     volumes:
       - ~/dockerQA/html/:/var/www/html
-      - ~/dockerQA/php/config/php72/php.ini-development:/usr/local/etc/php/php.ini-development
-      - ~/dockerQA/php/config/php72/php.ini-production:/usr/local/etc/php/php.ini-production
-      #- ~/dockerQA/php/config/php72/conf.d:/usr/local/etc/php/conf.d
+      - ~/dockerQA/php/config/php72/conf.d/php.ini-development:/usr/local/etc/php/conf.d/php.ini
     ports:
       - 8072:80
     networks:
@@ -53,9 +49,7 @@ services:
     restart: unless-stopped
     volumes:
       - ~/dockerQA/html/:/var/www/html
-      - ~/dockerQA/php/config/php73/php.ini-development:/usr/local/etc/php/php.ini-development
-      - ~/dockerQA/php/config/php73/php.ini-production:/usr/local/etc/php/php.ini-production
-      #- ~/dockerQA/php/config/php73/conf.d:/usr/local/etc/php/conf.d
+      - ~/dockerQA/php/config/php73/conf.d/php.ini-development:/usr/local/etc/php/conf.d/php.ini
     ports:
       - 8073:80
     networks:
@@ -69,9 +63,7 @@ services:
     restart: unless-stopped
     volumes:
       - ~/dockerQA/html/:/var/www/html
-      - ~/dockerQA/php/config/php74/php.ini-development:/usr/local/etc/php/php.ini-development
-      - ~/dockerQA/php/config/php74/php.ini-production:/usr/local/etc/php/php.ini-production
-      #- ~/dockerQA/php/config/php74/conf.d:/usr/local/etc/php/conf.d
+      - ~/dockerQA/php/config/php74/conf.d/php.ini-development:/usr/local/etc/php/conf.d/php.ini
     ports:
       - 8074:80
     networks:
