@@ -8,47 +8,50 @@ ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/mas
 RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
 
 RUN DEBIAN_FRONTEND=nointeractive apt-get update -q \
-    && DEBIAN_FRONTEND=nointeractive apt-get install -qq -y \
-        curl \
-        git \
-        zip unzip \
-    && install-php-extensions \
-        bcmath \
-        bz2 \
-        calendar \
-        curl \
-        date \
-        dom \
-        fileinfo \
-        filter \
-        ftp \
-        hash \
-        iconv \
-        imap \
-        json \
-        libxml \
-        mbstring \
-        openssl \
-        session \
-        xmlreader \
-        xmlwriter \
-        exif \
-        gd \
-        intl \
-        ldap \
-        memcached \
-        mysqli \
-        opcache \
-        pdo_mysql \
-        pdo_pgsql \
-        pgsql \
-        redis \
-        soap \
-        xsl \
-        zip \
-        xml \
-        xdebug \
-        sockets
+  && DEBIAN_FRONTEND=nointeractive apt-get install -qq -y \
+  curl \
+  git \
+  zip unzip \
+  && install-php-extensions \
+  bcmath \
+  bz2 \
+  calendar \
+  curl \
+  date \
+  dom \
+  fileinfo \
+  filter \
+  ftp \
+  hash \
+  iconv \
+  imap \
+  json \
+  libxml \
+  mbstring \
+  openssl \
+  session \
+  xmlreader \
+  xmlwriter \
+  exif \
+  gd \
+  intl \
+  ldap \
+  memcached \
+  mysqli \
+  opcache \
+  pdo_mysql \
+  pdo_pgsql \
+  pgsql \
+  redis \
+  soap \
+  xsl \
+  zip \
+  xml \
+  xdebug \
+  sockets
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN a2enmod rewrite
 RUN groupmod -g 1000 www-data \
