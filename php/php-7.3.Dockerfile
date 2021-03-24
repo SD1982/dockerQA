@@ -23,22 +23,7 @@ RUN install-php-extensions \
   bcmath \
   bz2 \
   calendar \
-  curl \
-  date \
-  dom \
-  fileinfo \
-  filter \
-  ftp \
-  hash \
-  iconv \
   imap \
-  json \
-  libxml \
-  mbstring \
-  openssl \
-  session \
-  xmlreader \
-  xmlwriter \
   exif \
   gd \
   intl \
@@ -53,7 +38,6 @@ RUN install-php-extensions \
   soap \
   xsl \
   zip \
-  xml \
   xdebug \
   sockets
 
