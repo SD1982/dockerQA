@@ -7,8 +7,12 @@ ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/mas
 
 RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
 
-RUN DEBIAN_FRONTEND=nointeractive apt-get update -q \
-  && DEBIAN_FRONTEND=nointeractive apt-get install -qq -y \
+ENV DEBIAN_FRONTEND=nointeractive
+
+# Install dependencies
+RUN  apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get install -y \
   curl \
   git \
   zip unzip \
