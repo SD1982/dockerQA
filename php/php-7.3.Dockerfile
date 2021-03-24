@@ -41,8 +41,8 @@ RUN install-php-extensions \
   xdebug \
   sockets
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Install composer
+RUN install-php-extensions @composer-1
 
 RUN a2enmod rewrite
 RUN groupmod -g 1000 www-data \
