@@ -16,7 +16,10 @@ RUN apt-get install -y \
   curl \
   git \
   zip unzip \
-  && install-php-extensions \
+  apt-utils mailutils
+
+# Install extensions
+RUN install-php-extensions \
   bcmath \
   bz2 \
   calendar \
