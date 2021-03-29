@@ -1,37 +1,26 @@
 FROM php:7.4-apache
 
-RUN apt-get update
-RUN apt-get upgrade -y
-
-ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
 
-RUN DEBIAN_FRONTEND=nointeractive apt-get update -q \
-  && DEBIAN_FRONTEND=nointeractive apt-get install -qq -y \
+ENV DEBIAN_FRONTEND=nointeractive
+
+# Install dependencies
+RUN  apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get install -y \
   curl \
   git \
   zip unzip \
-  && install-php-extensions \
+  apt-utils mailutils
+
+# Install extensions
+RUN install-php-extensions \
   bcmath \
   bz2 \
   calendar \
-  curl \
-  date \
-  dom \
-  fileinfo \
-  filter \
-  ftp \
-  hash \
-  iconv \
   imap \
-  json \
-  libxml \
-  mbstring \
-  openssl \
-  session \
-  xmlreader \
-  xmlwriter \
   exif \
   gd \
   intl \
@@ -46,12 +35,11 @@ RUN DEBIAN_FRONTEND=nointeractive apt-get update -q \
   soap \
   xsl \
   zip \
-  xml \
   xdebug \
   sockets
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Install composer
+RUN install-php-extensions @composer-1
 
 RUN a2enmod rewrite
 RUN groupmod -g 1000 www-data \
