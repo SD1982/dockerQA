@@ -1,11 +1,5 @@
 FROM php:7.3-apache
 
-ARG USERID
-ARG GROUPID
-
-RUN echo ${USERID}
-
-
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
@@ -49,6 +43,5 @@ RUN install-php-extensions \
 RUN install-php-extensions @composer-1
 
 RUN a2enmod rewrite
-#RUN groupmod -g 1000 www-data \
-#  && usermod -u 1000 -g 1000 www-data
+#RUN groupmod -g 1000 www-data && usermod -u 1000 -g 1000 www-data
 #RUN chown -R 1000:1000 /var/www

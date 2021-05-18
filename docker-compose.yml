@@ -1,49 +1,44 @@
---- 
-networks:
-  web:
-    external:
-      name: web
+version: "3"
 
-services: 
-
-  mariadb: 
-    container_name: dockerQA_mariadb-10.1
-    environment: 
+services:
+  mariadb:
+    container_name: qa-mariadb-10.1
+    environment:
       #MYQSL_PASSWORD: root
       #MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root
     image: "mariadb:10.1"
-    networks: 
+    networks:
       - web
-    ports: 
+    ports:
       - "3307:3306"
     restart: always
-    volumes: 
+    volumes:
       - "./db_data/mariadb-10.1:/var/lib/mysql"
 
-  mysql: 
-    container_name: dockerQA_mysql-5.7
-    environment: 
+  mysql:
+    container_name: qa-mysql-5.7
+    environment:
       #MYQSL_PASSWORD: root
       #MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root
     image: "mysql:5.7"
-    networks: 
+    networks:
       - web
-    ports: 
+    ports:
       - "3306:3306"
     restart: always
-    volumes: 
+    volumes:
       - "./db_data/mysql-5.7:/var/lib/mysql"
 
-  phpmyadmin: 
-    container_name: dockerQA_phpmyadmin
-    environment: 
+  phpmyadmin:
+    container_name: qa-phpmyadmin
+    environment:
       - PMA_ARBITRARY=1
     image: "phpmyadmin/phpmyadmin:latest"
-    networks: 
+    networks:
       - web
-    ports: 
+    ports:
       - "8100:80"
     restart: always
 
@@ -51,10 +46,7 @@ services:
     build:
       dockerfile: php-7.1.Dockerfile
       context: ./php/dockerfiles/
-      args: 
-        - USERID=${UID}
-        - GROUPID=${GID}
-    container_name: dockerQA_php-7.1
+    container_name: qa-php-7.1
     restart: always
     volumes:
       - ./html/:/var/www/html
@@ -68,10 +60,7 @@ services:
     build:
       dockerfile: php-7.2.Dockerfile
       context: ./php/dockerfiles/
-      args: 
-        - USERID=${UID}
-        - GROUPID=${GID}
-    container_name: dockerQA_php-7.2
+    container_name: qa-php-7.2
     restart: always
     volumes:
       - ./html/:/var/www/html
@@ -85,10 +74,7 @@ services:
     build:
       dockerfile: php-7.3.Dockerfile
       context: ./php/dockerfiles/
-      args: 
-        - USERID=${UID}
-        - GROUPID=${GID}
-    container_name: dockerQA_php-7.3
+    container_name: qa-php-7.3
     restart: always
     volumes:
       - ./html/:/var/www/html
@@ -102,10 +88,7 @@ services:
     build:
       dockerfile: php-7.4.Dockerfile
       context: ./php/dockerfiles/
-      args: 
-        - USERID=${UID}
-        - GROUPID=${GID}
-    container_name: dockerQA_php-7.4
+    container_name: qa-php-7.4
     restart: always
     volumes:
       - ./html/:/var/www/html
@@ -115,4 +98,6 @@ services:
     networks:
       - web
 
-version: "2"
+networks:
+  web:
+    external: true
