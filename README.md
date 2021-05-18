@@ -42,6 +42,6 @@ go to your localhost with the required port for the required php version
 - mariadb is at localhost:3307 or with container name qa-mariadb-5.7
   (user = root, password = root)
   
-##phpmyadmin
+## phpmyadmin
 - phpmyadmin is accessible at localhost:8100 and can connect to both databases 
   (server = (qa-mysql-5.7 or qa-mariadb-10.1) user = root, password = root)
