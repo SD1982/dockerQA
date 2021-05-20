@@ -6,8 +6,11 @@ RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
 
 ENV DEBIAN_FRONTEND=nointeractive
 
+ARG APP_UID
+ARG APP_GID
+
 # Install dependencies
-RUN  apt-get update -y
+RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install -y \
   curl \
@@ -43,6 +46,6 @@ RUN install-php-extensions \
 RUN install-php-extensions @composer-1
 
 RUN a2enmod rewrite
-#RUN groupmod -g 1000 www-data && usermod -u 1000 -g 1000 www-data
-#RUN chown -R 1000:1000 /var/www
+RUN groupmod -g $APP_GID www-data && usermod -u $APP_UID -g $APP_GID www-data
+RUN chown -R $APP_UID:$APP_GID /var/www
 
