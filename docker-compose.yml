@@ -46,6 +46,9 @@ services:
     build:
       dockerfile: php-7.1.Dockerfile
       context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
     container_name: qa-php-7.1
     restart: always
     volumes:
@@ -60,6 +63,9 @@ services:
     build:
       dockerfile: php-7.2.Dockerfile
       context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
     container_name: qa-php-7.2
     restart: always
     volumes:
@@ -74,6 +80,9 @@ services:
     build:
       dockerfile: php-7.3.Dockerfile
       context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
     container_name: qa-php-7.3
     restart: always
     volumes:
@@ -88,6 +97,9 @@ services:
     build:
       dockerfile: php-7.4.Dockerfile
       context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
     container_name: qa-php-7.4
     restart: always
     volumes:
