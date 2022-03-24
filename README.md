@@ -4,6 +4,7 @@
 - php 7.2
 - php 7.3
 - php 7.4
+- php 8.0
 - mysql 5.7
 - mariadb 10.1
 - phpmyadmin
@@ -53,7 +54,9 @@ go to your localhost with the required port for the required php version
   
 - php 7.3 is at localhost:8073/your-app-folder-name
   
-- php 7.4 is at localhost:8074/your-app-folder-name
+- php 7.4 is at localhost:8074/your-app-folder-name  
+
+- php 8.0 is at localhost:8008/your-app-folder-name
 
 ## databases
 

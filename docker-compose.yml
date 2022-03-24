@@ -110,6 +110,23 @@ services:
     networks:
       - web
 
+  php80:
+    build:
+      dockerfile: php-8.0.Dockerfile
+      context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
+    container_name: qa-php-8.0
+    restart: always
+    volumes:
+      - ./html/:/var/www/html
+      - ./php/config/php80/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini
+    ports:
+      - 8008:80
+    networks:
+      - web
+
 networks:
   web:
     external: true
