@@ -1,10 +1,7 @@
 FROM php:7.2-apache
 
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-
-RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
-
 ENV DEBIAN_FRONTEND=nointeractive
+ENV NODE_VERSION=14.x
 
 ARG APP_UID
 ARG APP_GID
@@ -15,35 +12,18 @@ RUN apt-get upgrade -y
 RUN apt-get install -y \
   curl \
   git \
-  nodejs \
   zip unzip \
-  apt-utils mailutils
+  apt-utils \
+  mailutils
+
+# Install nodejs
+RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION | sudo bash - && \
+    apt-get install -y nodejs
 
 # Install extensions
-RUN install-php-extensions \
-  bcmath \
-  bz2 \
-  calendar \
-  imap \
-  exif \
-  gd \
-  intl \
-  ldap \
-  memcached \
-  mysqli \
-  opcache \
-  pdo_mysql \
-  pdo_pgsql \
-  pgsql \
-  redis \
-  soap \
-  xsl \
-  zip \
-  xdebug \
-  sockets
-
-# Install composer
-RUN install-php-extensions @composer-1
+ADD scripts/installPhpExt.sh /root/installPhpExt.sh
+RUN chmod uga+x /root/installPhpExt.sh && sync
+RUN /root/installPhpExt.sh
 
 RUN a2enmod rewrite
 RUN groupmod -g $APP_GID www-data && usermod -u $APP_UID -g $APP_GID www-data
