@@ -23,6 +23,8 @@ services:
       #MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root
     image: "mysql:5.7"
+    # Next Line should be added to make it work on MAC M1
+    #platform: linux/amd64
     networks:
       - web
     ports:
