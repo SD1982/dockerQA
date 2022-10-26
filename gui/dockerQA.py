@@ -24,45 +24,41 @@ class DockerQA(object):
         self.start_containers_button=self.builder.get_object("start_containers_button")
         self.stop_containers_button=self.builder.get_object("stop_containers_button")
         #-----Repositories section related components
-        self.develop_branch_checkbox=self.builder.get_object("develop_branch_checkbox")
-        self.seventySeven_branch_checkbox=self.builder.get_object("seventySeven_branch_checkbox")
-        self.seventyEight_branch_checkbox=self.builder.get_object("seventyEight_branch_checkbox")
+        self.develop_branch_radio=self.builder.get_object("develop_branch_radio")
+        self.seventy_seven_branch_radio=self.builder.get_object("seventy_seven_branch_radio")
+        self.seventy_eight_branch_radio=self.builder.get_object("seventy_eight_branch_radio")
         self.clone_radio_button=self.builder.get_object("clone_radio_button")
         self.update_radio_button=self.builder.get_object("update_radio_button")
         self.remove_radio_button=self.builder.get_object("remove_radio_button")
         self.execute_repo_action_button=self.builder.get_object("execute_repo_action_button")
         #-----Pull requests section related components
-        self.develop_radio_button=self.builder.get_object("develop_radio_button")
-        self.seventySeven_radio_button=self.builder.get_object("seventySeven_radio_button")
-        self.seventyEight_radio_button=self.builder.get_object("seventyEight_radio_button")
+        self.develop_pr_radio=self.builder.get_object("develop_pr_radio")
+        self.seventy_seven_pr_radio=self.builder.get_object("seventy_seven_pr_radio")
+        self.seventy_eight_pr_radio=self.builder.get_object("seventy_eight_pr_radio")
         self.install_pr_button=self.builder.get_object("install_pr_button")
         #-----Activation
         self.builder.connect_signals(self)
         self.mainWindow.show_all()
         #-----Others vars
-        self.availableBranches = [self.develop_branch_checkbox, self.seventySeven_branch_checkbox, self.seventyEight_branch_checkbox]
-        self.repoActions = [self.clone_radio_button, self.update_radio_button, self.remove_radio_button]
+        self.available_branches = [self.develop_branch_radio, self.seventy_seven_branch_radio, self.seventy_eight_branch_radio]
+        self.repo_actions = [self.clone_radio_button, self.update_radio_button, self.remove_radio_button]
 
 
     #-----Repositories section actions
-    def get_selected_branches(self, widget):
-        selectedBranches = []
-
-        for branch in self.availableBranches:
+    def get_selected_branch(self, widget):
+        for branch in self.available_branches:
             if branch.get_active():
-                selectedBranches.append(branch.get_label())
-
-        return selectedBranches
+                return branch.get_label().lower()
 
 
     def get_selected_repo_action(self, widget):
-        for action in self.repoActions:
+        for action in self.repo_actions:
             if action.get_active():
-                return action.get_label()
+                return action.get_label().lower()
 
 
-    def execute_repo_action(self, widget, branches, action):
-        print (branches, action)
+    def execute_repo_action(self, widget, branch, action):
+        print ({'branch': branch, 'action': action})
 
 
     def check_if_repo_folder_exist(self):
@@ -70,14 +66,15 @@ class DockerQA(object):
 
 
     def on_execute_repo_action_button_clicked(self, widget):
-        selectedBranches = self.get_selected_branches(widget)
-        requiredAction = self.get_selected_repo_action(widget)
-        self.execute_repo_action(widget, selectedBranches, requiredAction)
+        branch = self.get_selected_branch(widget)
+        required_action = self.get_selected_repo_action(widget)
+        self.execute_repo_action(widget, branch, required_action)
 
 
     #----Pull requests section actions
     def on_install_pr_button_clicked(self, widget):
         print ("install pull request !!")
+
 
 
     #-----App destroy
