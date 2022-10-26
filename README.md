@@ -62,16 +62,16 @@ go to your localhost with the required port for the required php version
 
 ### from outside container
 
-- mysql 5.7 is at localhost:3306 (user = root, password = root)
+- mysql 5.7 is at localhost:33006 (user = root, password = root)
   
-- mariadb is at localhost:3307 (user = root, password = root)
+- mariadb is at localhost:33007 (user = root, password = root)
 
-### from outside container
+### from inside container
 
-- mysql 5.7 is at localhost:3306 or with container name qa-mysql-5.7
+- mysql 5.7 is at localhost:33006 or with container name qa-mysql-5.7
   (user = root, password = root)
   
-- mariadb is at localhost:3307 or with container name qa-mariadb-5.7
+- mariadb is at localhost:33007 or with container name qa-mariadb-5.7
   (user = root, password = root)
   
 ## phpmyadmin

@@ -3,6 +3,8 @@
 
 import gi
 import os
+import subprocess
+import repositories
 
 
 gi.require_version("Gtk", "3.0")
@@ -25,22 +27,22 @@ class DockerQA(object):
         self.stop_containers_button=self.builder.get_object("stop_containers_button")
         #-----Repositories section related components
         self.develop_branch_radio=self.builder.get_object("develop_branch_radio")
-        self.seventy_seven_branch_radio=self.builder.get_object("seventy_seven_branch_radio")
-        self.seventy_eight_branch_radio=self.builder.get_object("seventy_eight_branch_radio")
+        self.eight_zero_branch_radio=self.builder.get_object("eight_zero_branch_radio")
+        self.one_seven_eight_branch_radio=self.builder.get_object("one_seven_eight_branch_radio")
         self.clone_radio_button=self.builder.get_object("clone_radio_button")
         self.update_radio_button=self.builder.get_object("update_radio_button")
         self.remove_radio_button=self.builder.get_object("remove_radio_button")
         self.execute_repo_action_button=self.builder.get_object("execute_repo_action_button")
         #-----Pull requests section related components
         self.develop_pr_radio=self.builder.get_object("develop_pr_radio")
-        self.seventy_seven_pr_radio=self.builder.get_object("seventy_seven_pr_radio")
-        self.seventy_eight_pr_radio=self.builder.get_object("seventy_eight_pr_radio")
+        self.eight_zero_pr_radio=self.builder.get_object("eight_zero_pr_radio")
+        self.one_seven_eight_pr_radio=self.builder.get_object("one_seven_eight_pr_radio")
         self.install_pr_button=self.builder.get_object("install_pr_button")
         #-----Activation
         self.builder.connect_signals(self)
         self.mainWindow.show_all()
         #-----Others vars
-        self.available_branches = [self.develop_branch_radio, self.seventy_seven_branch_radio, self.seventy_eight_branch_radio]
+        self.available_branches = [self.develop_branch_radio, self.eight_zero_branch_radio, self.one_seven_eight_branch_radio]
         self.repo_actions = [self.clone_radio_button, self.update_radio_button, self.remove_radio_button]
 
 
@@ -58,7 +60,13 @@ class DockerQA(object):
 
 
     def execute_repo_action(self, widget, branch, action):
-        print ({'branch': branch, 'action': action})
+        match action:
+            case "clone":
+                repositories.clone_branch(branch)
+            case "update":
+                repositories.update_branch(branch)
+            case "remove":
+                repositories.remove_branch(branch)
 
 
     def check_if_repo_folder_exist(self):
@@ -67,14 +75,14 @@ class DockerQA(object):
 
     def on_execute_repo_action_button_clicked(self, widget):
         branch = self.get_selected_branch(widget)
-        required_action = self.get_selected_repo_action(widget)
-        self.execute_repo_action(widget, branch, required_action)
+        action = self.get_selected_repo_action(widget)
+        self.execute_repo_action(widget, branch, action)
 
 
     #----Pull requests section actions
     def on_install_pr_button_clicked(self, widget):
-        print ("install pull request !!")
-
+        command = 'make load-pr number=45678'
+        subprocess.run(['bash', '-c', command], shell=False, cwd='../')
 
 
     #-----App destroy
