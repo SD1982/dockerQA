@@ -2,95 +2,65 @@
 """
 
 import gi
-import os
 import subprocess
-import repositories
-
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 
-#-----Main app class
+# Main app class
 class DockerQA(object):
+    """
+    """
 
-    #-----Init & main window creation
-    def __init__(self,builder,**kwargs):
-        super(DockerQA,self).__init__(**kwargs)
+    # Init & main window creation
+    def __init__(self, builder, **kwargs):
+        super(DockerQA, self).__init__(**kwargs)
 
-        self.builder=builder
-        #-----General Components
+        self.builder = builder
+        # ******** General Components ********
         self.builder.add_from_file('app.glade')
-        self.mainWindow=self.builder.get_object("mainWindow")
-        #-----Docker stack related components
-        self.start_containers_button=self.builder.get_object("start_containers_button")
-        self.stop_containers_button=self.builder.get_object("stop_containers_button")
-        #-----Repositories section related components
-        self.develop_branch_radio=self.builder.get_object("develop_branch_radio")
-        self.eight_zero_branch_radio=self.builder.get_object("eight_zero_branch_radio")
-        self.one_seven_eight_branch_radio=self.builder.get_object("one_seven_eight_branch_radio")
-        self.clone_radio_button=self.builder.get_object("clone_radio_button")
-        self.update_radio_button=self.builder.get_object("update_radio_button")
-        self.remove_radio_button=self.builder.get_object("remove_radio_button")
-        self.execute_repo_action_button=self.builder.get_object("execute_repo_action_button")
-        #-----Pull requests section related components
-        self.develop_pr_radio=self.builder.get_object("develop_pr_radio")
-        self.eight_zero_pr_radio=self.builder.get_object("eight_zero_pr_radio")
-        self.one_seven_eight_pr_radio=self.builder.get_object("one_seven_eight_pr_radio")
-        self.install_pr_button=self.builder.get_object("install_pr_button")
-        #-----Activation
+        self.main_window = self.builder.get_object("main_window")
+        # ******** Stack and switcher ********
+        self.main_stack_switcher = self.builder.get_object("main_stack_switcher")
+        # ******** Buttons ********
+        self.install_pr_button = self.builder.get_object("install_pr_button")
+        self.clone_repo_button = self.builder.get_object("clone_repo_button")
+        # ******** Selects ********
+        self.clone_repo_branch_select = self.builder.get_object("clone_repo_branch_select")
+        # Activation
         self.builder.connect_signals(self)
-        self.mainWindow.show_all()
-        #-----Others vars
-        self.available_branches = [self.develop_branch_radio, self.eight_zero_branch_radio, self.one_seven_eight_branch_radio]
-        self.repo_actions = [self.clone_radio_button, self.update_radio_button, self.remove_radio_button]
+        self.main_window.show_all()
 
+    def set_branches_in_clone_repo_select(self, widget):
+        self.clone_repo_branch_select.remove_all()
+        branches = ["develop", "1.7.8.x", "8.0.x"]
+        for branch in branches:
+            self.clone_repo_branch_select.append_text(branch)
 
-    #-----Repositories section actions
     def get_selected_branch(self, widget):
-        for branch in self.available_branches:
-            if branch.get_active():
-                return branch.get_label().lower()
+        self.set_branches_in_clone_repo_select(widget)
+        print(self.clone_repo_branch_select.get_active_text())
 
-
-    def get_selected_repo_action(self, widget):
-        for action in self.repo_actions:
-            if action.get_active():
-                return action.get_label().lower()
-
-
-    def execute_repo_action(self, widget, branch, action):
-        match action:
-            case "clone":
-                repositories.clone_branch(branch)
-            case "update":
-                repositories.update_branch(branch)
-            case "remove":
-                repositories.remove_branch(branch)
-
-
-    def check_if_repo_folder_exist(self):
-        print ("repo repo")
-
-
-    def on_execute_repo_action_button_clicked(self, widget):
-        branch = self.get_selected_branch(widget)
-        action = self.get_selected_repo_action(widget)
-        self.execute_repo_action(widget, branch, action)
-
-
-    #----Pull requests section actions
-    def on_install_pr_button_clicked(self, widget):
+    @staticmethod
+    def on_install_pr_button_clicked(widget):
         command = 'make load-pr number=45678'
+        print(command)
         subprocess.run(['bash', '-c', command], shell=False, cwd='../')
 
+    def on_clone_repo_button_clicked(self, widget):
+        # command = 'make load-pr number=45678'
+        self.get_selected_branch(widget)
+        print("Clone repo button clicked")
+        # subprocess.run(['bash', '-c', command], shell=True, cwd='../')
 
-    #-----App destroy
-    def on_mainWindow_destroy(self, widget):
+    # App destroy
+    @staticmethod
+    def on_main_destroy(widget):
         Gtk.main_quit()
 
 
-#-----Main loop
+# Main loop
 interface = Gtk.Builder()
 
 if __name__ == "__main__":
