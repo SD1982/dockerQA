@@ -1,5 +1,6 @@
 """
 """
+import os
 
 import gi
 import subprocess
@@ -58,9 +59,8 @@ class DockerQA(object):
         if branch == '' or name == '':
             print(f"Branch or folder name is empty !!")
         else:
-            command = f'make clone branch={branch} name={name}'
-            # command = 'cd html/ && ls -la'
-            subprocess.run(['bash', '-c', command], shell=False, cwd='../')
+            command = f'make clone-repo branch={branch} name={name}'
+            subprocess.Popen(command, shell=True, cwd='../')
 
     # ******** App destroy ********
     @staticmethod

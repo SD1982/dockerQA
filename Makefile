@@ -11,13 +11,18 @@ help: ## Show this help.
 #---------------------------------------------#
 
 ## === PULL REQUESTS ================================================
-load-pr: ## Load a given PR in a repository.
-	echo pull request number is ${number}
-.PHONY: load-pr
+install-pr: ## Load PR with given parameters ${branch}, ${name} as folder name, ${number} as PR number and ${type} as PR type (module or regular)
+	gnone-terminal -- echo "install PR !!"
+.PHONY: install-pr
 #---------------------------------------------#
 
 ## === REPOSITORIES =============================================
-clone: ## Clone branch with given parameters (branch & name as folder name)
-	./scripts/clone.sh ${branch} ${name}
-.PHONY: clone
+clone-repo: ## Clone branch with given parameters ${branch} and ${name} as folder name
+	#./scripts/clone.sh ${branch} ${name}
+	gnome-terminal -- ./scripts/clone.sh ${branch} ${name}
+.PHONY: clone-repo
+
+reset-repo: ## Reset repository with given parameters ${branch} and ${name} as folder name
+	gnone-terminal -- echo "reset repo !!"
+.PHONY: reset-repo
 #-----------------------------------------------#
