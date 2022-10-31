@@ -9,6 +9,7 @@
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can-focus">False</property>
+        <property name="halign">center</property>
         <property name="valign">center</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
@@ -22,6 +23,10 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="margin-end">15</property>
+                <property name="margin-bottom">15</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -52,7 +57,7 @@
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Branch or folder name is missing !</property>
+                <property name="label" translatable="yes">Branch or folder name is missing</property>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -141,7 +146,7 @@
                 <property name="can-focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="margin-start">20</property>
+                <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
                 <property name="margin-bottom">10</property>
@@ -160,9 +165,9 @@
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="margin-start">10</property>
-                <property name="margin-end">20</property>
+                <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
-                <property name="margin-bottom">10</property>
+                <property name="margin-bottom">50</property>
                 <property name="hhomogeneous">False</property>
                 <property name="vhomogeneous">False</property>
                 <property name="transition-duration">100</property>
