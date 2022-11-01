@@ -1,5 +1,6 @@
 """
 """
+from faulthandler import disable
 import os
 
 import gi
@@ -17,6 +18,7 @@ class DockerQA(object):
         super(DockerQA, self).__init__(**kwargs)
 
         self.builder = builder
+
         # ******** Main Components ********
         self.builder.add_from_file('app.glade')
         self.main_window = self.builder.get_object("main_window")
@@ -34,9 +36,15 @@ class DockerQA(object):
         # ******** Entries ********
         self.clone_folder_name_entry = self.builder.get_object("clone_folder_name_entry")
 
+        # ******** Alerts and infos ********
+        self.clone_repo_missing_branch_label = self.builder.get_object("clone_repo_missing_branch_label")
+        self.clone_repo_missing_folder_label = self.builder.get_object("clone_repo_missing_folder_label")
+
+
         # ******** Setup app and components on start ********
         self.builder.connect_signals(self)
         self.main_window.show_all()
+        self.disable_clone_repo_alerts_and_infos(self)
         self.set_branches_in_clone_repo_select(self)
 
     # ******** Setup functions ********
@@ -45,6 +53,10 @@ class DockerQA(object):
         branches = ["develop", "1.7.8.x", "8.0.x"]
         for branch in branches:
             self.clone_repo_branch_select.append_text(branch)
+
+    def disable_clone_repo_alerts_and_infos(self, widget):
+        self.clone_repo_missing_branch_label.set_visible(False)
+        self.clone_repo_missing_folder_label.set_visible(False)
 
     # ******** Clone repo stack functions ********
     def get_selected_branch(self, widget):
@@ -56,9 +68,12 @@ class DockerQA(object):
     def on_run_clone_repo_button_clicked(self, widget):
         branch = self.get_selected_branch(widget)
         name = self.get_folder_name_to_create(widget)
-        if branch == '' or name == '':
-            print(f"Branch or folder name is empty !!")
+        if branch == '':
+            self.clone_repo_missing_branch_label.set_visible(True)
+        if name == '':
+            self.clone_repo_missing_folder_label.set_visible(True)
         else:
+            self.disable_clone_repo_alerts_and_infos(self)
             command = f'make clone-repo branch={branch} name={name}'
             subprocess.Popen(command, shell=True, cwd='../')
 

@@ -18,7 +18,6 @@ install-pr: ## Load PR with given parameters ${branch}, ${name} as folder name, 
 
 ## === REPOSITORIES =============================================
 clone-repo: ## Clone branch with given parameters ${branch} and ${name} as folder name
-	#./scripts/clone.sh ${branch} ${name}
 	gnome-terminal -- ./scripts/clone.sh ${branch} ${name}
 .PHONY: clone-repo
 
