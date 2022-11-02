@@ -11,8 +11,8 @@ help: ## Show this help.
 #---------------------------------------------#
 
 ## === PULL REQUESTS ================================================
-install-pr: ## Load PR with given parameters ${branch}, ${name} as folder name, ${number} as PR number and ${type} as PR type (module or regular)
-	gnone-terminal -- echo "install PR !!"
+install-pr: ## Load regular PR with given parameters ${name} as folder name, ${branch}, and ${number} as PR number
+	gnone-terminal -- echo "install PR ${number} on ${name} folder and ${branch} branch"
 .PHONY: install-pr
 #---------------------------------------------#
 

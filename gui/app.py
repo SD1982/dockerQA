@@ -9,6 +9,10 @@ import subprocess
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
+global REPOSITORIES
+
+REPOSITORIES = []
+
 
 class DockerQA(object):
     """
@@ -19,51 +23,64 @@ class DockerQA(object):
 
         self.builder = builder
 
-        # ******** Main Components ********
+        # ******** Main Components **************************************************************
         self.builder.add_from_file('app.glade')
         self.main_window = self.builder.get_object("main_window")
 
-        # ******** Stack and switcher ********
+        # ******** Stack and switcher ***********************************************************
         self.main_stack_switcher = self.builder.get_object("main_stack_switcher")
 
-        # ******** Buttons ********
+        # ******** Buttons **********************************************************************
         self.install_pr_button = self.builder.get_object("install_pr_button")
         self.run_clone_repo_button = self.builder.get_object("run_clone_repo_button")
 
-        # ******** Selects ********
+        # ******** Selects **********************************************************************
         self.clone_repo_branch_select = self.builder.get_object("clone_repo_branch_select")
+        self.install_pr_folder_name_select = self.builder.get_object("install_pr_folder_name_select")
 
-        # ******** Entries ********
+        # ******** Entries **********************************************************************
         self.clone_folder_name_entry = self.builder.get_object("clone_folder_name_entry")
+        self.install_pr_number_entry = self.builder.get_object("install_pr_number_entry")
 
-        # ******** Alerts and infos ********
+        # ******** Alerts and infos **************************************************************
         self.clone_repo_missing_branch_label = self.builder.get_object("clone_repo_missing_branch_label")
         self.clone_repo_missing_folder_label = self.builder.get_object("clone_repo_missing_folder_label")
+        self.install_pr_missing_folder_label = self.builder.get_object("install_pr_missing_folder_label")
+        self.install_pr_missing_number_label = self.builder.get_object("install_pr_missing_number_label")
 
-
-        # ******** Setup app and components on start ********
+        # ******** Setup app and elements on start *********************************************
         self.builder.connect_signals(self)
         self.main_window.show_all()
-        self.disable_clone_repo_alerts_and_infos(self)
+        self.disable_alerts_and_infos_on_start(self)
         self.set_branches_in_clone_repo_select(self)
 
-    # ******** Setup functions ********
+    # ******** Setup functions *******************************************************************
     def set_branches_in_clone_repo_select(self, widget):
         self.clone_repo_branch_select.remove_all()
         branches = ["develop", "1.7.8.x", "8.0.x"]
         for branch in branches:
             self.clone_repo_branch_select.append_text(branch)
 
-    def disable_clone_repo_alerts_and_infos(self, widget):
+    def disable_alerts_and_infos_on_start(self, widget):
+        self.disable_clone_stack_alerts_and_infos(self)
+        self.disable_pr_stack_alerts_and_infos(self)
+
+    # ******** Clone repo stack functions ********************************************************
+    def disable_clone_stack_alerts_and_infos(self, widget):
         self.clone_repo_missing_branch_label.set_visible(False)
         self.clone_repo_missing_folder_label.set_visible(False)
 
-    # ******** Clone repo stack functions ********
     def get_selected_branch(self, widget):
         return self.clone_repo_branch_select.get_active_text()
 
     def get_folder_name_to_create(self, widget):
         return self.clone_folder_name_entry.get_text()
+
+    def on_clone_folder_name_changed(self, widget):
+        self.clone_repo_missing_folder_label.set_visible(False)
+    
+    def on_clone_branch_changed(self, widget):
+        self.clone_repo_missing_branch_label.set_visible(False)
 
     def on_run_clone_repo_button_clicked(self, widget):
         branch = self.get_selected_branch(widget)
@@ -77,13 +94,39 @@ class DockerQA(object):
             command = f'make clone-repo branch={branch} name={name}'
             subprocess.Popen(command, shell=True, cwd='../')
 
-    # ******** App destroy ********
+
+    # ******** Install PR stack functions *********************************************************
+    def get_all_existing_repositories(self, widget):
+        rootdir = '../html'
+        REPOSITORIES = []
+        for folder in os.walk(rootdir):
+            REPOSITORIES.extend(folder)
+
+    def disable_pr_stack_alerts_and_infos(self, widget):
+        self.install_pr_missing_folder_label.set_visible(False)
+        self.install_pr_missing_number_label.set_visible(False)
+
+    def get_pr_number_to_install(self, widget):
+        return self.install_pr_number_entry.get_text()
+
+    def get_folder_name_to_install_pr(self, widget):
+        return self.self.install_pr_folder_name_select.get_text()
+
+    def on_run_install_pr_button_clicked(self, widget):
+        pr_number = self.get_pr_number_to_install(widget)
+        # install_folder = self.install_pr_folder_name_select(widget)
+        # print(f"{pr_number}, {install_folder}")
+        self.install_pr_missing_folder_label.set_visible(True)
+        self.install_pr_missing_number_label.set_visible(True)
+        print("install PR")
+
+    # ******** App destroy ************************************************************************
     @staticmethod
     def on_main_destroy(widget):
         Gtk.main_quit()
 
 
-# ******** Main loop ********
+# ******** Main loop ******************************************************************************
 interface = Gtk.Builder()
 
 if __name__ == "__main__":
