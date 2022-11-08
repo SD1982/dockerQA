@@ -1,13 +1,13 @@
 #!/bin/bash
 
-cd html
+cd html || return
 
-git clone https://github.com/PrestaShop/PrestaShop.git "${2}" && \
-    cd "${2}" && \
-    git checkout "${1}" && \
-    rm -rf * && git checkout . && composer install && \
-    git clean -xfd && \
-    make
+git clone https://github.com/PrestaShop/PrestaShop.git "${2}"
+cd "${2}" || return
+git checkout "${1}"
+rm -rf * && git checkout . && composer install
+git clean -xfd
+make
 
 $SHELL
 
