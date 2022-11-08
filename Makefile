@@ -11,17 +11,20 @@ help: ## Show this help.
 #---------------------------------------------#
 
 ## === PULL REQUESTS ================================================
-install-pr: ## Load regular PR with given parameters ${name} as folder name, ${branch}, and ${number} as PR number
-	gnone-terminal -- echo "install PR ${number} on ${name} folder and ${branch} branch"
+install-pr: ## Load regular PR with the following parameters ${1} = folder name /// ${2} = PR branch /// ${number} = PR number
+	gnome-terminal -- echo "install PR ${number} on ${name} folder and ${branch} branch"
 .PHONY: install-pr
 #---------------------------------------------#
-
 ## === REPOSITORIES =============================================
-clone-repo: ## Clone branch with given parameters ${branch} and ${name} as folder name
+clone-repo: ## Clone branch with the following parameters ${1} = repo branch /// ${2} = folder name
 	gnome-terminal -- ./scripts/clone.sh ${branch} ${name}
 .PHONY: clone-repo
 
-reset-repo: ## Reset repository with given parameters ${branch} and ${name} as folder name
-	gnone-terminal -- echo "reset repo !!"
+reset-repo: ## Reset repository with the following parameters ${1} = repo branch /// ${2} = folder name
+	gnome-terminal -- echo "reset repo !!"
 .PHONY: reset-repo
+
+delete-repo: ## Delete repository with the following parameters ${1} = folder to delete
+	gnome-terminal -- ./scripts/delete.sh ${name}
+.PHONY: delete-repo
 #-----------------------------------------------#

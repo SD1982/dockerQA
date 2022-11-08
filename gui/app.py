@@ -109,9 +109,10 @@ class DockerQA(object):
     def on_run_clone_repo_button_clicked(self, widget):
         branch = self.get_selected_branch(widget)
         name = self.get_folder_name_to_create(widget)
+
         if branch == '':
             self.clone_repo_missing_branch_label.set_visible(True)
-        if name == '':
+        elif name == '':
             self.clone_repo_missing_folder_label.set_visible(True)
         else:
             print(f'branch: {branch}')
@@ -130,20 +131,61 @@ class DockerQA(object):
 
     def on_run_install_pr_button_clicked(self, widget):
         pr_number = self.get_pr_number_to_install(widget)
-        install_folder = self.get_folder_name_to_install_pr(widget)
-        # TODO here connect makefile and add a regex to accept only numbers for PR
-        print(pr_number == '')
+        folder_to_install = self.get_folder_name_to_install_pr(widget)
+        pr_branch = '' # TODO here need a branch select
+
+        if pr_number == '':
+            self.install_pr_missing_number_label.set_visible(True)
+        elif folder_to_install == '':
+            self.install_pr_missing_folder_label.set_visible(True)
+        else:
+            self.disable_reset_repo_stack_alerts_and_infos(widget)
+            # command = f'make install-pr name= branch={} number={}'
+            # subprocess.Popen(command, shell=True, cwd='../')
         print(f'number: {pr_number}')
-        print(f'folder: {install_folder}')
 
     # ******** Reset repo stack functions *********************************************************
+    def get_folder_name_to_reset(self, widget):
+        return self.reset_repo_folder_name_select.get_active_text()
+
+    def get_branch_to_reset(self, widget):
+        return self.reset_repo_branch_select.get_active_text()
+
     def disable_reset_repo_stack_alerts_and_infos(self, widget):
         self.reset_repo_missing_folder_label.set_visible(False)
         self.reset_repo_missing_branch_label.set_visible(False)
 
+    def on_run_reset_repo_button_clicked(self, widget):
+        # TODO here maybe on this function add a "infos resume" before the repo reset ??
+        folder_to_reset = self.get_folder_name_to_reset(widget)
+        branch_to_reset = self.get_branch_to_reset(widget)
+
+        if folder_to_reset == '':
+            self.reset_repo_missing_folder_label.set_visible(True)
+        elif branch_to_reset == '':
+            self.reset_repo_missing_branch_label.set_visible(True)
+        else:
+            self.disable_reset_repo_stack_alerts_and_infos(widget)
+            command = f'make reset-repo branch={branch_to_reset} name={folder_to_reset}'
+            subprocess.Popen(command, shell=True, cwd='../')
+
     # ******** Delete repo stack functions *********************************************************
+    def get_repo_folder_name_to_delete(self, widget):
+        return self.delete_repo_folder_select.get_active_text()
+
     def disable_delete_repo_stack_alerts_and_infos(self, widget):
         self.delete_repo_missing_folder_label.set_visible(False)
+
+    def on_run_delete_repo_button_clicked(self, widget):
+        # TODO here maybe on this function add a "confirmation popup" before the repo deletion ??
+        folder_to_delete = self.get_repo_folder_name_to_delete(widget)
+
+        if folder_to_delete == '':
+            self.delete_repo_missing_folder_label.set_visible(True)
+        else:
+            self.disable_delete_repo_stack_alerts_and_infos(widget)
+            command = f'make delete-repo name={folder_to_delete}'
+            subprocess.Popen(command, shell=True, cwd='../')
 
     # ******** App destroy ************************************************************************
     @staticmethod

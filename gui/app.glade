@@ -1063,6 +1063,7 @@
                             <property name="image">install_pr_btn_img2</property>
                             <property name="image-position">right</property>
                             <property name="always-show-image">True</property>
+                            <signal name="clicked" handler="on_run_delete_repo_button_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
