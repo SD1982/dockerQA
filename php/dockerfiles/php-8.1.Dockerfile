@@ -43,7 +43,7 @@ RUN install-php-extensions \
   sockets
 
 # Install composer
-RUN install-php-extensions @composer-1
+RUN install-php-extensions @composer-2
 
 RUN a2enmod rewrite
 RUN groupmod -g $APP_GID www-data && usermod -u $APP_UID -g $APP_GID www-data
