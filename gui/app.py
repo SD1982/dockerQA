@@ -55,6 +55,11 @@ class DockerQA(object):
         self.set_repositories_in_folders_selects(self)
 
     # ******** Setup and globals functions *******************************************************************
+    @staticmethod
+    def setup_stack():
+        # self.disable_all_labels()
+        print("setup !!!")
+
     def set_branches_in_all_selects(self):
         self.clone_repo_branch_select.remove_all()
         self.reset_repo_branch_select.remove_all()
@@ -136,13 +141,16 @@ class DockerQA(object):
     def get_pr_number_to_install(self, widget):
         return self.install_pr_number_entry.get_text()
 
+    def get_branch_to_install_pr(self, widget):
+        return self.install_pr_branch_select.get_active_text()
+
     def get_folder_name_to_install_pr(self, widget):
         return self.install_pr_folder_name_select.get_active_text()
 
     def on_run_install_pr_button_clicked(self, widget):
         pr_number = self.get_pr_number_to_install(widget)
         folder_to_install = self.get_folder_name_to_install_pr(widget)
-        pr_branch = '' # TODO here need a branch select
+        pr_branch = self.get_branch_to_install_pr(widget)
 
         if pr_number == '':
             self.enable_missing_pr_number_label(widget)
