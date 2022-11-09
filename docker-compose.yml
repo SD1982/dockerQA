@@ -11,7 +11,7 @@ services:
     networks:
       - web
     ports:
-      - "3307:3306"
+      - "33007:3306"
     restart: always
     volumes:
       - "./db_data/mariadb-10.1:/var/lib/mysql"
@@ -26,7 +26,7 @@ services:
     networks:
       - web
     ports:
-      - "3306:3306"
+      - "33006:3306"
     restart: always
     volumes:
       - "./db_data/mysql-5.7:/var/lib/mysql"
@@ -46,13 +46,16 @@ services:
     build:
       dockerfile: php-7.1.Dockerfile
       context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
     container_name: qa-php-7.1
     restart: always
     volumes:
       - ./html/:/var/www/html
       - ./php/config/php71/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini
     ports:
-      - 8071:80
+      - "8071:80"
     networks:
       - web
 
@@ -60,13 +63,16 @@ services:
     build:
       dockerfile: php-7.2.Dockerfile
       context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
     container_name: qa-php-7.2
     restart: always
     volumes:
       - ./html/:/var/www/html
       - ./php/config/php72/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini
     ports:
-      - 8072:80
+      - "8072:80"
     networks:
       - web
 
@@ -74,13 +80,16 @@ services:
     build:
       dockerfile: php-7.3.Dockerfile
       context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
     container_name: qa-php-7.3
     restart: always
     volumes:
       - ./html/:/var/www/html
       - ./php/config/php73/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini
     ports:
-      - 8073:80
+      - "8073:80"
     networks:
       - web
 
@@ -88,13 +97,33 @@ services:
     build:
       dockerfile: php-7.4.Dockerfile
       context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
     container_name: qa-php-7.4
     restart: always
     volumes:
       - ./html/:/var/www/html
       - ./php/config/php74/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini
     ports:
-      - 8074:80
+      - "8074:80"
+    networks:
+      - web
+
+  php80:
+    build:
+      dockerfile: php-8.0.Dockerfile
+      context: ./php/dockerfiles/
+      args:
+        - APP_UID=${APP_UID:-1000}
+        - APP_GID=${APP_GID:-1000}
+    container_name: qa-php-8.0
+    restart: always
+    volumes:
+      - ./html/:/var/www/html
+      - ./php/config/php80/conf.d/php.ini:/usr/local/etc/php/conf.d/php.ini
+    ports:
+      - "8008:80"
     networks:
       - web
 

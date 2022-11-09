@@ -1,1 +1,5 @@
 .idea
+.db_data
+!**/__pycache__/
+gui/app.glade~
+.vscode
